@@ -29,7 +29,7 @@ const Singledropbutton = ({ items, option }) => {
         <div
           className="flex items-center justify-between py-1 px-4 bg-white rounded shadow cursor-pointer select-btn"
           onClick={toggleDropdown}
-          style={{ width: '200px' }} // Fixed width for the dropdown button
+          style={{ width: '200px' }} 
         >
           <span className="text-gray-700 truncate">
             {selectedItem ? selectedItem : `Select ${option}`}
@@ -41,7 +41,7 @@ const Singledropbutton = ({ items, option }) => {
         {isOpen && (
           <div
             className="absolute right-0 mt-2 bg-white rounded shadow list-items z-50"
-            style={{ width: '400px' }} // Fixed width for the dropdown options
+            style={{ width: '400px' }} 
           >
             <div className="flex items-center px-4 py-1 border-b border-gray-300">
               <FaSearch className="mr-2 text-gray-400" />
