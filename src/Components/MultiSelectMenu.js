@@ -5,6 +5,7 @@ const MultiSelectMenu = ({ items, option }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedItems, setSelectedItems] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
+  const [deselectAllChecked, setDeselectAllChecked] = useState(false);
 
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
@@ -18,6 +19,7 @@ const MultiSelectMenu = ({ items, option }) => {
         return [...prevSelectedItems, item];
       }
     });
+    setDeselectAllChecked(false); // Uncheck deselect all checkbox when any item is toggled
   };
 
   const handleSearchChange = (e) => {
@@ -25,7 +27,13 @@ const MultiSelectMenu = ({ items, option }) => {
   };
 
   const deselectAll = () => {
-    setSelectedItems([]);
+    if (deselectAllChecked) {
+      setDeselectAllChecked(false);
+      setSelectedItems([]);
+    } else {
+      setDeselectAllChecked(true);
+      setSelectedItems([]);
+    }
   };
 
   const filteredItems = items.filter((item) =>
@@ -34,15 +42,15 @@ const MultiSelectMenu = ({ items, option }) => {
 
   return (
     <div className="relative max-w-sm mt-1">
-      <div className="relative">
+      <div className="relative w-full">
         <div
-          className="flex items-center justify-between h-12 px-4 bg-white rounded shadow cursor-pointer select-btn"
+          className="flex items-center justify-between h-auto px-4 py-1 bg-white rounded shadow cursor-pointer select-btn"
           onClick={toggleDropdown}
         >
           <span className="text-gray-700">
             {selectedItems.length > 0
-              ? `${selectedItems.length} out of ${items.length} Selected`
-              : `Select ${option}`}
+              ? `Companies (${selectedItems.length}/${items.length})`
+              : `Companies (0/${items.length})`}
           </span>
           <span
             className={`w-6 h-6  rounded-full flex items-center justify-center transition-transform ${
@@ -53,8 +61,8 @@ const MultiSelectMenu = ({ items, option }) => {
           </span>
         </div>
         {isOpen && (
-          <div className="absolute left-0 w-full mt-2 bg-white rounded shadow list-items z-50 max-h-72 overflow-y-auto">
-            <div className="flex items-center px-4 py-2 border-b border-gray-300">
+          <div className="absolute right-0 w-full mt-2 bg-white rounded shadow list-items z-50 max-h-72 overflow-y-auto" style={{ width: '200%' }}>
+            <div className="flex items-center px-4 py-1 border-b border-gray-300">
               <FaSearch className="mr-2 text-gray-400" />
               <input
                 type="text"
@@ -65,20 +73,34 @@ const MultiSelectMenu = ({ items, option }) => {
               />
             </div>
             <div
-              className="px-4 py-2 border-b border-gray-300 cursor-pointer"
+              className={`flex items-center justify-between px-4 py-1 border-b border-gray-300 cursor-pointer transition-colors ${
+                deselectAllChecked ? 'bg-blue-100' : ''
+              }`}
               onClick={deselectAll}
             >
               <span className="text-gray-700">Deselect All</span>
+              <span
+                className={`w-4 h-4 border-2 border-gray-300 rounded flex items-center justify-center transition-all ${
+                  deselectAllChecked
+                    ? 'bg-blue-500 border-blue-500'
+                    : ''
+                }`}
+              >
+                {deselectAllChecked && <FaCheck className="text-white text-xs" />}
+              </span>
             </div>
             <ul className="max-h-48 overflow-y-auto">
-              {filteredItems.slice(0, 5).map((item, index) => (
+              {filteredItems.map((item, index) => (
                 <li
                   key={index}
-                  className="flex items-center h-12 px-4 cursor-pointer transition-colors hover:bg-blue-100"
+                  className={`flex items-center justify-between h-12 px-4 cursor-pointer transition-colors ${
+                    selectedItems.includes(item) ? 'bg-blue-100' : ''
+                  } hover:bg-blue-100 whitespace-nowrap`}
                   onClick={() => toggleItem(item)}
                 >
+                  <span className="text-gray-700">{item}</span>
                   <span
-                    className={`w-4 h-4 border-2 border-gray-300 rounded mr-3 flex items-center justify-center transition-all ${
+                    className={`w-4 h-4 border-2 border-gray-300 rounded flex items-center justify-center transition-all ${
                       selectedItems.includes(item)
                         ? 'bg-blue-500 border-blue-500'
                         : ''
@@ -88,7 +110,6 @@ const MultiSelectMenu = ({ items, option }) => {
                       <FaCheck className="text-white text-xs" />
                     )}
                   </span>
-                  <span className="text-gray-700">{item}</span>
                 </li>
               ))}
             </ul>

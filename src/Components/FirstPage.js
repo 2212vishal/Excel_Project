@@ -4,6 +4,8 @@ import Table from './Table';
 import Singledropbutton from './Singledropbutton';
 import MultiSelectMenu from './MultiSelectMenu';
 import FinanceToolbar from './FinanceToolbar';
+import Simpledropdown from './Simpledropdown';
+
 
 const FirstPage = () => {
     const currency = ['BSUD', 'Crore'];
@@ -15,16 +17,17 @@ const FirstPage = () => {
     return (
         <div className="flex gap-4 bg-customLightDark">
 
-            <div className=" w-1/5 h-auto bg-white">
+            <div className=" w-1/5 h-auto bg-white drop-shadow-2xl">
                 <Sidebar />
             </div>
-            <div className="flex flex-col  w-4/5  bg-customLightDark">
-                <div className="flex gap-3 justify-between m-4 p-4 bg-white">
-                    <div className="flex flex-col">
+            <div className="flex flex-col  w-4/5  bg-customLightDark ">
+                <div className="flex gap-3 justify-between m-4 p-4  bg-white">
+                    <div className="flex flex-col drop-shadow-2xl">
                         <p>Currency</p>
-                        <Singledropbutton className="w-300" items={currency} option="currency" />
+                        {/* <Singledropbutton className="w-300" items={currency} option="currency" /> */}
+                        <Simpledropdown items={currency}/>
                     </div>
-                    <div className="flex gap-4">
+                    <div className="flex gap-4 drop-shadow-2xl">
                         <div className="flex flex-col">
                             <p >Supplier</p>
                             <MultiSelectMenu items={supplier} option="supplier"/>
@@ -43,7 +46,7 @@ const FirstPage = () => {
                         </div>
                     </div>
                 </div>
-                <div className="m-4 p-4 bg-white">
+                <div className="m-4 p-4 bg-white drop-shadow-2xl">
                     <FinanceToolbar/>
                     <Table />
                 </div>

@@ -42,7 +42,7 @@ const Sidebar = () => {
         )}
        
       </div>
-      <h1 className="text-2xl font-semibold">Benchmark</h1>
+      <h1 className="text-2xl pl-4 font-semibold">Benchmark</h1>
       </div>
       
       <p className="text-gray-500 mb-6">Compare performance of company against suppliers, competitors and customers.</p>
@@ -51,7 +51,7 @@ const Sidebar = () => {
         {menuItems.map((item, index) => (
           <li
             key={index}
-            className={`flex gap-2  items-center p-2 rounded cursor-pointer 
+            className={`flex gap-2  items-center p-4 rounded cursor-pointer 
               ${activeIndex === index ? 'bg-blue-100 text-blue-600' : 'text-gray-700'}
               hover:bg-gray-100`}
             onClick={() => setActiveIndex(index)}
